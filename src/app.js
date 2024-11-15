@@ -1,8 +1,16 @@
 require('dotenv').config()
+
+console.log('Variables de entorno:')
+console.log(process.env)
 const express = require('express')
+const cors = require('cors')
 const authRoutes = require('./routes/auth')
 
 const app = express()
+
+// Habilitar CORS para todas las solicitudes
+app.use(cors())
+
 app.use(express.json())
 app.use('/api/auth', authRoutes)
 

@@ -8,14 +8,17 @@ const router = express.Router()
 // Registro de usuario
 router.post('/register', async (req, res) => {
   const { username, password } = req.body
+  console.log('Datos recibidos:', username, password)
   try {
     const hashedPassword = await bcrypt.hash(password, 10)
     const result = await pool.query(
       'INSERT INTO users (username, password) VALUES ($1, $2) RETURNING *',
       [username, hashedPassword]
     )
+    console.log('Usuario registrado:', result.rows[0])
     res.status(201).json({ message: 'User registered', user: result.rows[0] })
   } catch (err) {
+    console.error('Error en el servidor:', err)
     res.status(500).json({ error: err.message })
   }
 })
